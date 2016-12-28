@@ -3,6 +3,7 @@
 import argparse
 from sys import argv
 from os import rename
+from pymediainfo import MediaInfo
 from tools import *
 
 def parseArgs(argv):
@@ -35,8 +36,12 @@ def main(args):
         index = file[1].rfind(".")
         fileExt = file[1][index:]
         qualIndex = file[1].rfind('.', 0, index) + 1
+        qual = file[1][qualIndex:index]
+        qualText = "SDTV"
+        needScan = False
+        needRename = False
+
         if not qualIndex == -1:
-            qual = file[1][qualIndex:index]
             xindex = qual.find('x')
             if not xindex == -1:
                 height = int(qual[xindex + 1:])
@@ -51,8 +56,26 @@ def main(args):
                 else:
                     qualText = 'SDTV'
 
-                srcFile = file[0] + '/' + file[1]
-                newFile = file[0] + '/' + file[1][0:qualIndex] + qualText + fileExt.lower()
-                rename(srcFile, newFile)
+                needRename = True
+            else:
+                needScan = True
+        else:
+            needScan = True
+
+        if needScan:
+            info = MediaInfo.parse(file[0] + "/" + file[1])
+            height = info.height
+            if height >= 480:
+                qualText = "WEBDL" + height
+                if info.scan_type == "Progressive":
+                    qualText += "p"
+                else:
+                    qualText += "i"
+
+        if needRename:
+            srcFile = file[0] + '/' + file[1]
+            newFile = file[0] + '/' + file[1][0:qualIndex] + qualText + fileExt.lower()
+            rename(srcFile, newFile)
+
 
 main(argv)
