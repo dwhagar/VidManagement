@@ -58,7 +58,7 @@ def main(args):
                 break
 
         srcFile = file[0] + '/' + file[1]
-        newFile = file[0] + '/' + file[1][0:index] + qualText + fileExt.lower()
+        newFile = file[0] + '/' + file[1][0:index] + "." + qualText + fileExt.lower()
         rename(srcFile, newFile)
 
 main(argv)
