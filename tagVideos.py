@@ -41,8 +41,16 @@ def main(args):
         for track in info.tracks:
             if track.track_type == 'Video':
                 height = track.height
+                if height >= 2160:
+                    qualText = "WEBDL-2160"
+                elif height >= 1080:
+                    qualText = "WEBDL-1080"
+                elif height >= 720:
+                    qualText = "WEBDL-720"
+                elif height >= 480:
+                    qualText = "WEBDL-480"
+
                 if height >= 480:
-                    qualText = "WEBDL-" + height
                     if track.scan_type == "Progressive":
                         qualText += "p"
                     else:
