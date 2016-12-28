@@ -36,15 +36,18 @@ def main(args):
         index = file[1].rfind(".")
         fileExt = file[1][index:]
         qualText = "SDTV"
-
         info = MediaInfo.parse(file[0] + "/" + file[1])
-        height = info.height
-        if height >= 480:
-            qualText = "WEBDL" + height
-            if info.scan_type == "Progressive":
-                qualText += "p"
-            else:
-                qualText += "i"
+
+        for track in info.tracks:
+            if track.track_type == 'Video':
+                height = track.height
+                if height >= 480:
+                    qualText = "WEBDL-" + height
+                    if track.scan_type == "Progressive":
+                        qualText += "p"
+                    else:
+                        qualText += "i"
+                break
 
         srcFile = file[0] + '/' + file[1]
         newFile = file[0] + '/' + file[1][0:index] + qualText + fileExt.lower()
