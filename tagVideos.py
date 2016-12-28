@@ -33,7 +33,7 @@ def main(args):
 
     for file in files:
         index = file[1].rfind(".")
-        fileExt = file[index:]
+        fileExt = file[1][index:]
         qualIndex = file[1].rfind('.', 0, index) + 1
         if not qualIndex == -1:
             qual = file[1][qualIndex:index]
