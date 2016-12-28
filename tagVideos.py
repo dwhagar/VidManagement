@@ -57,8 +57,9 @@ def main(args):
                         qualText += "i"
                 break
 
-        srcFile = file[0] + '/' + file[1]
-        newFile = file[0] + '/' + file[1][0:index] + "." + qualText + fileExt.lower()
-        rename(srcFile, newFile)
+        if file[1].find(qualText) == -1:
+            srcFile = file[0] + '/' + file[1]
+            newFile = file[0] + '/' + file[1][0:index] + "." + qualText + fileExt.lower()
+            rename(srcFile, newFile)
 
 main(argv)
