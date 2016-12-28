@@ -41,7 +41,7 @@ def main(args):
             if not xindex == -1:
                 height = int(qual[xindex + 1:])
                 if height >= 2160:
-                    qualText = 'WEBDL-20160p'
+                    qualText = 'WEBDL-2160p'
                 elif height >= 1080:
                     qualText = 'WEBDL-1080p'
                 elif height >= 720:
@@ -52,8 +52,7 @@ def main(args):
                     qualText = 'SDTV'
 
                 srcFile = file[0] + '/' + file[1]
-                newFile = file[0] + '/' + file[1][0:qualIndex] \
-                    + qualText + fileExt.lower()
+                newFile = file[0] + '/' + file[1][0:qualIndex] + qualText + fileExt.lower()
                 rename(srcFile, newFile)
 
 main(argv)
