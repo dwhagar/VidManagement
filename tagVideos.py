@@ -25,7 +25,7 @@ def main(args):
     if options.source is None:
         print("Invalid option.")
         return 1
-    if (not validatePath(options.source)) or (not validatePath(options.dest)):
+    if not validatePath(options.source):
         print("Invalid path.")
         return 1
 
