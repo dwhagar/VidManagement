@@ -16,7 +16,7 @@ def parseArgs(argv):
     argparser.add_argument("--source", "-s", default = None ,help = "specify where to scan for video files")
     argparser.add_argument("--dest", "-d", default = None, help = "specify where to copy video files to")
 
-    options = argparser.parse_args(argv)
+    options = argparser.parse_args(argv[1:])
 
     return options
 

@@ -21,7 +21,7 @@ def validatePath(path):
 
 def findFiles(path):
     types = [".mkv", ".mp4", ".m4v", ".mov", ".avi"]
-    files = []
+    fileList = []
 
     # Walk the file structure
     for root, dirs, files in walk(path):
@@ -35,7 +35,7 @@ def findFiles(path):
                 fileExt = file[index:]
                 for testExt in types:
                     if fileExt.lower() == testExt:
-                        file = (root, file)
-                        files.append(file)
+                        thisFile = (root, file)
+                        fileList.append(thisFile)
 
-    return files
+    return fileList
