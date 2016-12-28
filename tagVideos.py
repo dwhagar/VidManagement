@@ -35,47 +35,19 @@ def main(args):
     for file in files:
         index = file[1].rfind(".")
         fileExt = file[1][index:]
-        qualIndex = file[1].rfind('.', 0, index) + 1
-        qual = file[1][qualIndex:index]
         qualText = "SDTV"
-        needScan = False
-        needRename = False
 
-        if not qualIndex == -1:
-            xindex = qual.find('x')
-            if not xindex == -1:
-                height = int(qual[xindex + 1:])
-                if height >= 2160:
-                    qualText = 'WEBDL-2160p'
-                elif height >= 1080:
-                    qualText = 'WEBDL-1080p'
-                elif height >= 720:
-                    qualText = 'WEBDL-720p'
-                elif height >= 480:
-                    qualText = 'WEBDL-480p'
-                else:
-                    qualText = 'SDTV'
-
-                needRename = True
+        info = MediaInfo.parse(file[0] + "/" + file[1])
+        height = info.height
+        if height >= 480:
+            qualText = "WEBDL" + height
+            if info.scan_type == "Progressive":
+                qualText += "p"
             else:
-                needScan = True
-        else:
-            needScan = True
+                qualText += "i"
 
-        if needScan:
-            info = MediaInfo.parse(file[0] + "/" + file[1])
-            height = info.height
-            if height >= 480:
-                qualText = "WEBDL" + height
-                if info.scan_type == "Progressive":
-                    qualText += "p"
-                else:
-                    qualText += "i"
-
-        if needRename:
-            srcFile = file[0] + '/' + file[1]
-            newFile = file[0] + '/' + file[1][0:qualIndex] + qualText + fileExt.lower()
-            rename(srcFile, newFile)
-
+        srcFile = file[0] + '/' + file[1]
+        newFile = file[0] + '/' + file[1][0:index] + qualText + fileExt.lower()
+        rename(srcFile, newFile)
 
 main(argv)
